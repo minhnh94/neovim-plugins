@@ -1,52 +1,72 @@
 return {
   {
-    "folke/tokyonight.nvim",
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
     opts = {
-      style = "night",
-      transparent = true,
-      terminal_colors = true,
+      flavour = "mocha",
+      transparent_background = true,
+      term_colors = true,
 
-      on_highlights = function(hl, c)
-        -- Core editor
-        hl.Normal = { bg = "none" }
-        hl.NormalNC = { bg = "none" }
-        hl.SignColumn = { bg = "none" }
-        hl.EndOfBuffer = { bg = "none" }
-        hl.LineNr = { bg = "none" }
-        hl.CursorLineNr = { bg = "none" }
-        hl.FoldColumn = { bg = "none" }
+      custom_highlights = function(colors)
+        return {
+          -- Core editor
+          Normal = { bg = "none" },
+          NormalNC = { bg = "none" },
+          SignColumn = { bg = "none" },
+          EndOfBuffer = { bg = "none" },
+          LineNr = { bg = "none", fg = colors.overlay1 },
+          LineNrAbove = { bg = "none", fg = colors.overlay1 },
+          LineNrBelow = { bg = "none", fg = colors.overlay1 },
+          CursorLineNr = { bg = "none", fg = colors.peach, bold = true },
+          FoldColumn = { bg = "none" },
 
-        -- Floats / popups
-        hl.NormalFloat = { bg = "none" }
-        hl.FloatBorder = { bg = "none" }
-        hl.Pmenu = { bg = "none" }
-        hl.PmenuSel = { bg = c.bg_highlight, fg = c.fg }
-        -- Neo-tree
-        hl.NeoTreeNormal = { bg = "none" }
-        hl.NeoTreeNormalNC = { bg = "none" }
-        hl.NeoTreeEndOfBuffer = { bg = "none" }
-        hl.NeoTreeWinSeparator = { bg = "none" }
+          -- Current line / cursor visibility
+          CursorLine = { bg = "#1e1e2e" },
+          CursorColumn = { bg = "#1e1e2e" },
+          Cursor = { fg = colors.base, bg = colors.text },
+          TermCursor = { fg = colors.base, bg = colors.text },
 
-        -- Telescope
-        hl.TelescopeNormal = { bg = "none" }
-        hl.TelescopeBorder = { bg = "none" }
-        hl.TelescopePromptNormal = { bg = "none" }
-        hl.TelescopePromptBorder = { bg = "none" }
-        hl.TelescopeResultsNormal = { bg = "none" }
-        hl.TelescopeResultsBorder = { bg = "none" }
-        hl.TelescopePreviewNormal = { bg = "none" }
-        hl.TelescopePreviewBorder = { bg = "none" }
-        -- Lazy / Mason / WhichKey / Trouble / Noice
-        hl.LazyNormal = { bg = "none" }
-        hl.MasonNormal = { bg = "none" }
-        hl.WhichKeyFloat = { bg = "none" }
-        hl.TroubleNormal = { bg = "none" }
-        hl.NoiceCmdlinePopup = { bg = "none" }
-        hl.NoiceCmdlinePopupBorder = { bg = "none" }
+          -- Floats / menus
+          NormalFloat = { bg = "none" },
+          FloatBorder = { bg = "none", fg = colors.surface2 },
+          Pmenu = { bg = "none" },
+          PmenuSel = { bg = colors.surface0, fg = colors.text },
 
-        -- Optional: vertical separators
-        hl.WinSeparator = { bg = "none", fg = c.border_highlight }
+          -- Neo-tree
+          NeoTreeNormal = { bg = "none" },
+          NeoTreeNormalNC = { bg = "none" },
+          NeoTreeEndOfBuffer = { bg = "none" },
+          NeoTreeWinSeparator = { bg = "none", fg = colors.surface1 },
+
+          -- Telescope
+          TelescopeNormal = { bg = "none" },
+          TelescopeBorder = { bg = "none", fg = colors.surface1 },
+          TelescopePromptNormal = { bg = "none" },
+          TelescopePromptBorder = { bg = "none", fg = colors.surface1 },
+          TelescopeResultsNormal = { bg = "none" },
+          TelescopeResultsBorder = { bg = "none", fg = colors.surface1 },
+          TelescopePreviewNormal = { bg = "none" },
+          TelescopePreviewBorder = { bg = "none", fg = colors.surface1 },
+
+          -- Lazy / Mason / WhichKey / Trouble / Noice
+          LazyNormal = { bg = "none" },
+          MasonNormal = { bg = "none" },
+          WhichKeyFloat = { bg = "none" },
+          TroubleNormal = { bg = "none" },
+          NoiceCmdlinePopup = { bg = "none" },
+          NoiceCmdlinePopupBorder = { bg = "none", fg = colors.surface1 },
+
+          -- Separators
+          WinSeparator = { bg = "none", fg = colors.surface1 },
+        }
       end,
+    },
+  },
+  {
+    "LazyVim/LazyVim",
+    opts = {
+      colorscheme = "catppuccin",
     },
   },
 }

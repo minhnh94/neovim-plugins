@@ -1,6 +1,8 @@
 {
   "extras": [
-
+    "lazyvim.plugins.extras.editor.aerial",
+    "lazyvim.plugins.extras.editor.neo-tree",
+    "lazyvim.plugins.extras.ui.edgy"
   ],
   "install_version": 8,
   "news": {

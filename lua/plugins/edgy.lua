@@ -36,10 +36,30 @@ return {
       })
     end,
     opts = function(_, opts)
-      -- Ensure the left sidebar list exists
       opts.left = opts.left or {}
 
-      -- Add Aerial to the left stack
+      -- Add Snacks Explorer to the left stack (top 60%)
+      -- The explorer uses snacks layout: a root split (ft = "snacks_layout_box")
+      -- with floating input+list windows relative to it.
+      table.insert(opts.left, {
+        title = "Explorer",
+        ft = "snacks_layout_box",
+        pinned = true,
+        open = function()
+          Snacks.explorer({ focus = false })
+        end,
+        filter = function(buf, win)
+          for _, picker in ipairs(Snacks.picker.get({ source = "explorer" })) do
+            if picker.layout and picker.layout.root and picker.layout.root.win == win then
+              return true
+            end
+          end
+          return false
+        end,
+        size = { height = 0.6 },
+      })
+
+      -- Add Aerial to the left stack (bottom 40%)
       table.insert(opts.left, {
         title = "Aerial",
         ft = "aerial",
@@ -47,15 +67,8 @@ return {
         open = function()
           require("aerial").open({ focus = false, direction = "left" })
         end,
-        size = { height = 0.4 }, -- Aerial takes bottom 40%
+        size = { height = 0.4 },
       })
-
-      -- Adjust Neo-tree to take the remaining space
-      for _, pos in ipairs(opts.left) do
-        if pos.ft == "neo-tree" then
-          pos.size = { height = 0.6 } -- Neo-tree takes top 60%
-        end
-      end
     end,
   },
 
@@ -67,19 +80,16 @@ return {
         default_direction = "left",
         placement = "edge",
       },
-      attach_mode = "global", -- Updates based on the current buffer
+      attach_mode = "global",
       show_guides = true,
     },
   },
 
-  -- 3. Ensure Neo-tree plays nice with the split
+  -- 3. Enable snacks explorer
   {
-    "nvim-neo-tree/neo-tree.nvim",
+    "folke/snacks.nvim",
     opts = {
-      window = {
-        position = "left",
-        width = 30,
-      },
+      explorer = { enabled = true },
     },
   },
 
@@ -100,7 +110,7 @@ return {
         function()
           require("edgy").toggle("left")
         end,
-        desc = "Toggle Sidebar Stack (Neo-tree + Aerial)",
+        desc = "Toggle Sidebar Stack (Explorer + Aerial)",
       },
     },
   },

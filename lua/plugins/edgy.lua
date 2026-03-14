@@ -3,6 +3,38 @@ return {
   {
     "folke/edgy.nvim",
     optional = true,
+    init = function()
+      local group = vim.api.nvim_create_augroup("edgy_aerial_auto_open", { clear = true })
+
+      local function open_aerial_in_edgy()
+        if vim.v.exiting ~= vim.NIL then
+          return
+        end
+
+        vim.schedule(function()
+          if vim.v.exiting ~= vim.NIL then
+            return
+          end
+
+          local ok, edgy = pcall(require, "edgy")
+          if ok then
+            edgy.open("left")
+          end
+        end)
+      end
+
+      vim.api.nvim_create_autocmd("User", {
+        group = group,
+        pattern = "VeryLazy",
+        once = true,
+        callback = open_aerial_in_edgy,
+      })
+
+      vim.api.nvim_create_autocmd("WinClosed", {
+        group = group,
+        callback = open_aerial_in_edgy,
+      })
+    end,
     opts = function(_, opts)
       -- Ensure the left sidebar list exists
       opts.left = opts.left or {}
@@ -12,7 +44,9 @@ return {
         title = "Aerial",
         ft = "aerial",
         pinned = true,
-        open = "AerialOpen",
+        open = function()
+          require("aerial").open({ focus = false, direction = "left" })
+        end,
         size = { height = 0.4 }, -- Aerial takes bottom 40%
       })
 
